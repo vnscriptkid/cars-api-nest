@@ -7,7 +7,7 @@ async function bootstrap() {
 
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true,
+      whitelist: true, // filter out fields not declared in dto
     }),
   );
 
