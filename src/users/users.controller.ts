@@ -1,3 +1,4 @@
+import { SerializeInterceptor } from './../interceptors/serialize.interceptor';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import {
   Body,
@@ -24,6 +25,7 @@ export class UsersController {
     this.usersService.create(body.email, body.password);
   }
 
+  // @UseInterceptors(ClassSerializerInterceptor)
   @UseInterceptors(ClassSerializerInterceptor)
   @Get(':id')
   async findUser(@Param('id') id: string) {

@@ -17,7 +17,7 @@ export class User {
   email: string;
 
   @Column()
-  @Exclude() // exclude while serializing into object
+  // @Exclude() // exclude while serializing into object
   password: string;
 
   @AfterInsert()
