@@ -16,6 +16,8 @@ export class UsersService {
   }
 
   findOne(id: number) {
+    if (!id) return null; // why? if id is null, below will return first record in db
+
     return this.usersRepo.findOne(id);
   }
 
