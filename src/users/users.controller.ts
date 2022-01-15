@@ -53,6 +53,11 @@ export class UsersController {
     return user;
   }
 
+  @Get('whoami')
+  getCurrentUser(@Session() session: any) {
+    return this.usersService.findOne(session.userId);
+  }
+
   // @UseInterceptors(ClassSerializerInterceptor)
   // @UseInterceptors(new SerializeInterceptor(UserDto))
   @Get(':id')
