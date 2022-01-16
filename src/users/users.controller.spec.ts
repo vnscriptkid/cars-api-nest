@@ -7,15 +7,21 @@ import { UsersService } from './users.service';
 describe('UsersController', () => {
   let controller: UsersController;
 
+  let fakeAuthService: Partial<AuthService>;
+  let fakeUsersService: Partial<UsersService>;
+
   beforeEach(async () => {
-    const fakeAuthService = {
+    fakeAuthService = {
       signup: (email: string, password: string) =>
-        Promise.resolve({ id: 1, email, password }),
+        Promise.resolve({ id: 1, email, password } as User),
       signin: (email: string, password: string) =>
-        Promise.resolve({ id: 1, email, password }),
+        Promise.resolve({ id: 1, email, password } as User),
     };
 
-    const fakeUsersService = {};
+    fakeUsersService = {
+      findOne: (id: number) =>
+        Promise.resolve({ id, email: 'someone@gmail.com' } as User),
+    };
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UsersController],
@@ -70,5 +76,22 @@ describe('UsersController', () => {
     });
 
     expect(session.userId).toBe(1);
+  });
+
+  it('findUser should return correct user', async () => {
+    const user = await controller.findUser('1');
+
+    expect(user).toMatchObject({
+      id: 1,
+      email: 'someone@gmail.com',
+    });
+  });
+
+  it('findUser throws NotFound if there is no matching user', async () => {
+    fakeUsersService.findOne = () => Promise.resolve(null);
+
+    controller.findUser('1').catch((e) => {
+      expect(e.message).toBe('User not found.');
+    });
   });
 });
