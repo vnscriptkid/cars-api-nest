@@ -51,4 +51,10 @@ describe('AuthService', () => {
       expect(e.message).toBe('Email already exists');
     });
   });
+
+  it('throws error if user signs in with email that does not exist', async () => {
+    service.signin('someone@gmail.com', '123456').catch((e) => {
+      expect(e.message).toBe('Invalid credentials.');
+    });
+  });
 });
