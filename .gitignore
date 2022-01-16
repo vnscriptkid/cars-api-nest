@@ -36,4 +36,4 @@ requests
 !.vscode/extensions.json
 
 # DB
-db.sqlite
+*.sqlite
