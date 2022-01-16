@@ -1,6 +1,7 @@
-import { Module, ValidationPipe } from '@nestjs/common';
+import { MiddlewareConsumer, Module, ValidationPipe } from '@nestjs/common';
 import { APP_PIPE } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
+const cookieSession = require('cookie-session');
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { Report } from './reports/report.entity';
@@ -30,4 +31,21 @@ import { UsersModule } from './users/users.module';
     },
   ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    // globally scoped middleware
+    consumer
+      .apply(
+        cookieSession({
+          keys: ['asdfkjsldkfj'],
+        }),
+      )
+      .forRoutes('*');
+    // same as
+    // app.use(
+    //   cookieSession({
+    //     keys: ['asdfkjsldkfj'],
+    //   }),
+    // );
+  }
+}
