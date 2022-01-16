@@ -57,4 +57,41 @@ describe('AuthService', () => {
       expect(e.message).toBe('Invalid credentials.');
     });
   });
+
+  it('throws error if password is incorrect', async () => {
+    const user = await service.signup('someone@gmail.com', '123456');
+
+    fakerUsersService.find = (email: string) =>
+      Promise.resolve([
+        {
+          id: 1,
+          email: 'someone@gmail.com',
+          password: user.password,
+        } as User,
+      ]);
+
+    service.signin('someone@gmail.com', 'incorrect-password').catch((e) => {
+      expect(e.message).toBe('Invalid credentials.');
+    });
+  });
+
+  it('returns user if password is correct', async () => {
+    const user = await service.signup('someone@gmail.com', '123456');
+
+    fakerUsersService.find = (email: string) =>
+      Promise.resolve([
+        {
+          id: 1,
+          email: 'someone@gmail.com',
+          password: user.password,
+        } as User,
+      ]);
+
+    const signedInUser = await service.signin('someone@gmail.com', '123456');
+
+    expect(signedInUser).toMatchObject({
+      id: 1,
+      email: 'someone@gmail.com',
+    });
+  });
 });
