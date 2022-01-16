@@ -13,12 +13,6 @@ async function bootstrap() {
     }),
   );
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true, // filter out fields not declared in dto
-    }),
-  );
-
   await app.listen(3000);
 }
 bootstrap();
