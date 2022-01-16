@@ -3,11 +3,11 @@ import { Test } from '@nestjs/testing';
 import { UsersService } from './users.service';
 import { User } from './user.entity';
 
-let service: AuthService;
-
 describe('AuthService', () => {
+  let service: AuthService, fakerUsersService: Partial<UsersService>;
+
   beforeEach(async () => {
-    const fakerUsersService: Partial<UsersService> = {
+    fakerUsersService = {
       find: () => Promise.resolve([]),
       create: (email: string, password: string) =>
         Promise.resolve({ id: 1, email, password } as User),
@@ -39,5 +39,16 @@ describe('AuthService', () => {
 
     expect(salt).toBeDefined();
     expect(hash).toBeDefined();
+  });
+
+  it('throws error if user signs up with email that already exists', async () => {
+    fakerUsersService.find = (email: string) =>
+      Promise.resolve([
+        { id: 1, email: 'someone@gmail.com', password: 'xyzabc' } as User,
+      ]);
+
+    service.signup('someone@gmail.com', '123456').catch((e) => {
+      expect(e.message).toBe('Email already exists');
+    });
   });
 });
