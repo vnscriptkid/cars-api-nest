@@ -1,10 +1,12 @@
 import { Exclude } from 'class-transformer';
+import { Report } from 'src/reports/report.entity';
 import {
   AfterInsert,
   AfterRemove,
   AfterUpdate,
   Column,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -20,6 +22,10 @@ export class User {
   // @Exclude() // exclude while serializing into object
   password: string;
 
+  @OneToMany(() => Report, (report) => report.user)
+  reports: Report[];
+
+  /* HOOKS */
   @AfterInsert()
   logInsert() {
     console.log(`New user #${this.id} has been inserted.`);
