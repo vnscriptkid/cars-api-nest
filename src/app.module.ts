@@ -48,12 +48,14 @@ import { UsersModule } from './users/users.module';
   ],
 })
 export class AppModule {
+  constructor(private readonly configService: ConfigService) {}
+
   configure(consumer: MiddlewareConsumer) {
     // globally scoped middleware
     consumer
       .apply(
         cookieSession({
-          keys: ['asdfkjsldkfj'],
+          keys: [this.configService.get('COOKIE_KEY')],
         }),
       )
       .forRoutes('*');
