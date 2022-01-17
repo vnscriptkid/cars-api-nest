@@ -22,6 +22,9 @@ export class User {
   // @Exclude() // exclude while serializing into object
   password: string;
 
+  @Column({ default: true })
+  admin: boolean;
+
   @OneToMany(() => Report, (report) => report.user)
   reports: Report[];
 
