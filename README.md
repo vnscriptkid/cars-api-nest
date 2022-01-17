@@ -21,3 +21,4 @@
   - note: can not have access to service (rely on interceptor)
 - guard
   - use case: authorization
+- full flow: req --> (middleware) --> (guard) --> (interceptor1) --> (**req handler**) --> (interceptor2) --> res
