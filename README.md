@@ -27,3 +27,11 @@
 
 - :one: `yarn run typeorm migration:generate -n initial-schema -o`
 - :two: `yarn typeorm migration:run`
+
+## heroku
+
+- `heroku create`
+- `heroku addons:create heroku-postgresql:hobby-dev`
+- `heroku config:set COOKIE_KEY=abc`
+- `heroku config:set NODE_ENV=production`
+- `git push heroku master`
