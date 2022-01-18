@@ -1,30 +1,25 @@
 var dbConfig = {
   synchronize: false,
+  migrations: ['migrations/*.js'],
+  cli: {
+    migrationsDir: 'migrations',
+  },
 };
-
-// module.exports = {
-//   type: 'sqlite',
-//   database: 'test.sqlite',
-//   entities:
-//     process.env.NODE_ENV === 'development'
-//       ? ['**/*.entity.js']
-//       : ['**/*.entity.ts'], // for test env, jest uses ts-node
-//   synchronize: process.env.NODE_ENV !== 'production',
-// };
 
 switch (process.env.NODE_ENV) {
   case 'development':
     Object.assign(dbConfig, {
       type: 'sqlite',
       database: 'db.sqlite',
-      entities: '**/*.entity.js',
+      entities: ['**/*.entity.js'],
     });
     break;
   case 'test':
     Object.assign(dbConfig, {
       type: 'sqlite',
       database: 'test.sqlite',
-      entities: '**/*.entity.ts',
+      entities: ['**/*.entity.ts'],
+      migrationsRun: true,
     });
     break;
   case 'production':

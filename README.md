@@ -22,3 +22,8 @@
 - guard
   - use case: authorization
 - full flow: req --> (middleware) --> (guard) --> (interceptor1) --> (**req handler**) --> (interceptor2) --> res
+
+## migrations
+
+- :one: `yarn run typeorm migration:generate -n initial-schema -o`
+- :two: `yarn typeorm migration:run`
